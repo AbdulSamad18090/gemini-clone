@@ -10,7 +10,9 @@ import { RiMapPin2Line } from "react-icons/ri";
 function App() {
   const [isOpen, setIsOpen] = useState(true);
   const [prompt, setPrompt] = useState("");
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
   const [chat, setChat] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -20,6 +22,9 @@ function App() {
     };
 
     window.addEventListener("resize", handleResize);
+
+    // Set the initial window width
+    setWindowWidth(window.innerWidth);
 
     return () => {
       window.removeEventListener("resize", handleResize);
