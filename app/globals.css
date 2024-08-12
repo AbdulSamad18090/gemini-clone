@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px;
+}
+
+.sidebar {
+  flex: 0 0 auto;
+  flex-direction: column;
+  padding: 0 1rem;
+  width: 300px; /* Initial width */
+  transition: width 0.3s ease-in-out; /* Smooth width transition */
+}
+
+.sidebar.closed {
+  width: 66px; /* Closed width */
+  overflow: hidden; /* Hide content when closed */
+}
+
+.content {
+  flex: 1;
+  background-color: black;
+  border-radius: 0 1rem 1rem 0;
+}
+
+.new-chat {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.5s ease-in-out, opacity 0.3s ease-in-out; /* Smooth width and opacity transition */
+  opacity: 1; /* Initial opacity */
+  width: auto; /* Initial width */
+}
+
+.new-chat.hidden {
+  opacity: 0; /* Hidden opacity */
+  width: 0; /* Hidden width */
+}
+
+
+.gradient-text {
+  background: linear-gradient(45deg, #5182ED, #D36678);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+}
+
+
