@@ -9,13 +9,7 @@ import { RiMapPin2Line } from "react-icons/ri";
 
 function App() {
   const [isOpen, setIsOpen] = useState(
-    typeof window !== "undefined"
-      ? window.innerWidth >= 752
-        ? true
-        : false
-      : window.innerWidth < 752
-      ? true
-      : false
+    typeof window !== "undefined" ? window.innerWidth > 752 : true
   );
   const [prompt, setPrompt] = useState("");
   const [windowWidth, setWindowWidth] = useState(
