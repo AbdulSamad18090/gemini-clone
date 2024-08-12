@@ -8,9 +8,7 @@ import { FaRegFlag } from "react-icons/fa6";
 import { RiMapPin2Line } from "react-icons/ri";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(
-    typeof window !== "undefined" ? window.innerWidth > 752 : true
-  );
+  const [isOpen, setIsOpen] = useState(true);
   const [prompt, setPrompt] = useState("");
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0
