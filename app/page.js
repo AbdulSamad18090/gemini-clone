@@ -1,11 +1,15 @@
-"use client";
+'use client';
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { IoMdMenu } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
-import { useState, useEffect } from "react";
 import { IoBulbOutline, IoSend } from "react-icons/io5";
 import { FaRegFlag } from "react-icons/fa6";
 import { RiMapPin2Line } from "react-icons/ri";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark, coldarkDark, dark, duotoneDark, gruvboxDark, materialDark, oneDark, solarizedDarkAtom, vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,7 +27,6 @@ function App() {
 
     window.addEventListener("resize", handleResize);
 
-    // Set the initial window width
     setWindowWidth(window.innerWidth);
 
     return () => {
@@ -132,11 +135,13 @@ function App() {
                 <p className="md:text-5xl text-4xl text-[#444746] font-semibold">
                   How can I help you today?
                 </p>
-                <div className="p-4 flex flex-wrap items-center justify-center gap-4 text-[13px] font-thin w-full overflow-x-auto">
+                <div className="p-10 flex flex-wrap items-center justify-center gap-4 text-[13px] font-thin w-full overflow-x-auto">
                   {defaultPrompts.map((defaultPrompt, i) => (
                     <div
                       key={i}
-                      className="flex flex-col justify-between items-end bg-[#1e1f20] p-3 rounded-xl min-h-[180px] max-w-[180px] hover:bg-[#272727] cursor-pointer transition-all hover:rotate-3 hover:scale-110"
+                      className={`flex flex-col justify-between items-end bg-[#1e1f20] p-3 rounded-xl min-h-[180px] max-w-[180px] hover:bg-white hover:bg-opacity-5 cursor-pointer transition-all ${
+                        i % 2 === 0 ? "hover:rotate-6" : "hover:-rotate-6"
+                      } hover:scale-125 shadow hover:shadow-[#1e1f20]`}
                       onClick={() => {
                         setPrompt(defaultPrompt.text);
                       }}
@@ -153,10 +158,35 @@ function App() {
               <div>
                 {chat.map((entry, index) => (
                   <div key={index} className="mb-4 px-2 md:mx-[10%]">
-                    <h2 className="text-lg bg-[#1e1f20] py-2 px-4 rounded-lg md:min-w-[60%] min-w-[90%]  md:max-w-[60%] max-w-[90%] mr-0 ml-auto my-4">
+                    <h2 className="bg-[#1e1f20] py-2 px-4 rounded-lg md:min-w-[60%] min-w-[90%]  md:max-w-[60%] max-w-[90%] mr-0 ml-auto my-4">
                       {entry.prompt}
                     </h2>
-                    <p className="text-md">{entry.response}</p>
+                    <div className="font-thin rounded-lg w-[90%]">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || '');
+                            return !inline && match ? (
+                              <SyntaxHighlighter
+                                style={atomDark}
+                                language={match[1]}
+                                PreTag="div"
+                                {...props}
+                              >
+                                {String(children).replace(/\n$/, '')}
+                              </SyntaxHighlighter>
+                            ) : (
+                              <code className={className} {...props}>
+                                {children}
+                              </code>
+                            );
+                          },
+                        }}
+                      >
+                        {entry.response}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 ))}
               </div>

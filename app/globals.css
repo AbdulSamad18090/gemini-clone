@@ -5,6 +5,8 @@
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
+  display: none;
   background-color: transparent;
 }
 
