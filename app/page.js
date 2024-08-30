@@ -115,10 +115,10 @@ function App() {
           {isOpen && (
             <div>
               <h1 className="font-semibold">Recents</h1>
-              <div className="h-[350px] overflow-auto">
+              <div className="h-[50vh] overflow-auto">
                 {/* Placeholder content */}
                 {Array.from({ length: 25 }, (_, i) => (
-                  <h1 key={i}>as</h1>
+                  <h1 key={i} className="bg-white bg-opacity-10 my-2 p-2 rounded-lg hover:bg-opacity-20 transition-all cursor-pointer">as</h1>
                 ))}
               </div>
             </div>
@@ -161,7 +161,7 @@ function App() {
                     <h2 className="bg-[#1e1f20] py-2 px-4 rounded-lg md:min-w-[60%] min-w-[90%]  md:max-w-[60%] max-w-[90%] mr-0 ml-auto my-4">
                       {entry.prompt}
                     </h2>
-                    <div className="font-thin rounded-lg w-[90%]">
+                    <div className="rounded-lg w-[90%]">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
