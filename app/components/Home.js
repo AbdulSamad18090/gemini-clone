@@ -119,8 +119,8 @@ function Home() {
                 <span
                   className={`absolute -z-10 transition-all duration-500 ease-in-out ${
                     formState === "login"
-                      ? "left-0 rounded-bl-lg rounded-tr-lg"
-                      : "left-1/2 rounded-tl-lg rounded-br-lg"
+                      ? "left-0 rounded-bl-xl rounded-br rounded-tr-xl rounded-tl"
+                      : "left-1/2 rounded-tl-xl rounded-tr rounded-br-xl rounded-bl"
                   } h-7 w-1/2 gradient`}
                 ></span>
               </div>
