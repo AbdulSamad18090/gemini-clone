@@ -23,11 +23,21 @@ const Login = () => {
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+      onSubmit={async (values, { setSubmitting }) => {
+        const result = await signIn("login", {
+          redirect: false,
+          email: values.email,
+          password: values.password,
+        });
+
+        if (result.error) {
+          alert(result.error);
+        } else {
+          alert("Login successful");
+          console.log(result);
+        }
+
+        setSubmitting(false);
       }}
     >
       {({
@@ -77,7 +87,7 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
-                placeholder="Entar your password"
+                placeholder="Enter your password"
                 id="password"
                 className={`w-full mt-1 p-3 border bg-[#1e1f20] text-gray-400 ${
                   errors.password && touched.password
@@ -108,9 +118,10 @@ const Login = () => {
               <span className="w-full h-[1px] bg-gray-400"></span>
             </div>
           </form>
-          <button className="flex items-center gap-4 justify-center bg-black w-full p-2 mt-1 rounded-lg text-gray-400 hover:shadow-lg transition-all"
+          <button
+            className="flex items-center gap-4 justify-center bg-black w-full p-2 mt-1 rounded-lg text-gray-400 hover:shadow-lg transition-all"
             onClick={() => {
-              signIn('google')
+              signIn("google");
             }}
           >
             <span>

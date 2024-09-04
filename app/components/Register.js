@@ -26,11 +26,22 @@ const Register = () => {
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+      onSubmit={async (values, { setSubmitting }) => {
+        const result = await signIn("register", {
+          redirect: false,
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        });
+
+        if (result.error) {
+          alert(result.error);
+        } else {
+          alert("Login successful");
+          console.log(result);
+        }
+
+        setSubmitting(false);
       }}
     >
       {({
