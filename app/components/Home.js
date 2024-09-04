@@ -92,18 +92,16 @@ function Home() {
             <FaUserLarge />
           </div>
           <div
-            className={`absolute top-11 right-0 transition-transform duration-500 bg-black bg-opacity-5 backdrop-blur-lg w-[400px] min-h-20 rounded-lg overflow-hidden border border-black border-opacity-15 shadow-lg ${
+            className={`absolute top-11 right-0 transition-transform duration-500 bg-black bg-opacity-5 backdrop-blur-lg sm:w-[400px] w-[94vw] min-h-20 rounded-lg overflow-hidden border border-black border-opacity-15 shadow-lg ${
               isOpenProfileModal
                 ? "transform translate-x-0 opacity-100"
-                : "transform translate-x-[450px] opacity-40"
+                : "transform sm:translate-x-[450px] translate-x-[100vw] opacity-40"
             }`}
           >
             <div className="p-4 text-white">
-              <div className="w-full flex items-center gap-2  mb-1 pb-1">
+              <div className="relative w-full flex items-center gap-2 mb-1 pb-1">
                 <span
-                  className={`w-full text-center cursor-pointer rounded-lg ${
-                    formState === "login" && "gradient"
-                  }`}
+                  className="w-full text-center cursor-pointer rounded-lg"
                   onClick={() => {
                     setFormState("login");
                   }}
@@ -111,16 +109,22 @@ function Home() {
                   Login
                 </span>
                 <span
-                  className={`w-full text-center cursor-pointer rounded-lg ${
-                    formState === "register" && "gradient"
-                  }`}
+                  className="w-full text-center cursor-pointer rounded-lg"
                   onClick={() => {
                     setFormState("register");
                   }}
                 >
                   Register
                 </span>
+                <span
+                  className={`absolute -z-10 transition-all duration-500 ease-in-out ${
+                    formState === "login"
+                      ? "left-0 rounded-bl-lg rounded-tr-lg"
+                      : "left-1/2 rounded-tl-lg rounded-br-lg"
+                  } h-7 w-1/2 gradient`}
+                ></span>
               </div>
+
               {formState === "login" ? <Login /> : <Register />}
             </div>
           </div>

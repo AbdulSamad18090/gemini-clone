@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
 
 const Register = () => {
   return (
@@ -44,10 +45,7 @@ const Register = () => {
         <>
           <form onSubmit={handleSubmit} className="space-y-2">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-gray-500 font-medium"
-              >
+              <label htmlFor="name" className="block text-gray-500 font-medium">
                 Name
               </label>
               <input
@@ -136,7 +134,12 @@ const Register = () => {
               <span className="w-full h-[1px] bg-gray-400"></span>
             </div>
           </form>
-          <button className="flex items-center gap-4 justify-center bg-black w-full p-2 mt-1 rounded-lg text-gray-400 hover:shadow-lg transition-all">
+          <button
+            className="flex items-center gap-4 justify-center bg-black w-full p-2 mt-1 rounded-lg text-gray-400 hover:shadow-lg transition-all"
+            onClick={() => {
+              signIn("google");
+            }}
+          >
             <span>
               <FcGoogle className="text-xl" />
             </span>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
 
 const Login = () => {
   return (
@@ -107,7 +108,11 @@ const Login = () => {
               <span className="w-full h-[1px] bg-gray-400"></span>
             </div>
           </form>
-          <button className="flex items-center gap-4 justify-center bg-black w-full p-2 mt-1 rounded-lg text-gray-400 hover:shadow-lg transition-all">
+          <button className="flex items-center gap-4 justify-center bg-black w-full p-2 mt-1 rounded-lg text-gray-400 hover:shadow-lg transition-all"
+            onClick={() => {
+              signIn('google')
+            }}
+          >
             <span>
               <FcGoogle className="text-xl" />
             </span>
