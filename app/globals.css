@@ -57,3 +57,8 @@
 }
 
 
+.gradient {
+  background: linear-gradient(45deg, #5182ED, #D36678);
+}
+
+
