@@ -10,8 +10,20 @@ import DefaultPrompts from "./DefaultPrompts";
 import { FaUserLarge } from "react-icons/fa6";
 import Register from "./Register";
 import Login from "./Login";
+import { signOut, useSession } from "next-auth/react";
+import { CiMenuKebab } from "react-icons/ci";
 
 function Home() {
+  const { data: session } = useSession(); // Get session data
+
+  useEffect(() => {
+    if (session) {
+      console.log("Session =>", session);
+    } else {
+      console.log("Session not exist");
+    }
+  }, [session]);
+
   const [isOpen, setIsOpen] = useState(true);
   const [prompt, setPrompt] = useState("");
   const [isOpenProfileModal, setIsOpenProfileModal] = useState(false);
@@ -89,7 +101,17 @@ function Home() {
               setIsOpenProfileModal(!isOpenProfileModal);
             }}
           >
-            <FaUserLarge />
+            {session?.user?.image ? (
+              <img
+                src={session.user.image}
+                alt="img"
+                width={36}
+                height={36}
+                className="rounded-full"
+              />
+            ) : (
+              <FaUserLarge />
+            )}
           </div>
           <div
             className={`absolute top-11 right-0 transition-transform duration-500 bg-black bg-opacity-5 backdrop-blur-lg sm:w-[400px] w-[94vw] min-h-20 rounded-lg overflow-hidden border border-black border-opacity-15 shadow-lg ${
@@ -98,35 +120,76 @@ function Home() {
                 : "transform sm:translate-x-[450px] translate-x-[100vw] opacity-40"
             }`}
           >
-            <div className="p-4 text-white">
-              <div className="relative w-full flex items-center gap-2 mb-1 pb-1">
-                <span
-                  className="w-full text-center cursor-pointer rounded-lg"
+            {session ? (
+              <section className="p-4 relative">
+                <span className="absolute top-4 right-4 hover:bg-[#444746] transition-all cursor-pointer p-1 rounded-md">
+                  <CiMenuKebab />
+                </span>
+                <div className="flex items-center gap-4">
+                  <div>
+                    {session.user?.image ? (
+                      <img
+                        src={session.user.image}
+                        alt="img"
+                        width={50}
+                        height={50}
+                        className="rounded"
+                      />
+                    ) : (
+                      <div className="w-[50px] h-[50px] gradient rounded flex items-center justify-center text-2xl">
+                        <FaUserLarge />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <h1 className="text-xl gradient-text">
+                      {session.user.name}
+                    </h1>
+                    <p className="text-sm text-[#444746]">
+                      {session.user.email}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="w-full bg-[#1e1f20] hover:bg-[#1a1a1b] text-red-600 outline-double hover:outline-red-600 outline-black transition-all p-2 rounded-lg mt-4"
                   onClick={() => {
-                    setFormState("login");
+                    signOut();
                   }}
                 >
-                  Login
-                </span>
-                <span
-                  className="w-full text-center cursor-pointer rounded-lg"
-                  onClick={() => {
-                    setFormState("register");
-                  }}
-                >
-                  Register
-                </span>
-                <span
-                  className={`absolute -z-10 transition-all duration-500 ease-in-out ${
-                    formState === "login"
-                      ? "left-0 rounded-bl-xl rounded-br rounded-tr-xl rounded-tl"
-                      : "left-1/2 rounded-tl-xl rounded-tr rounded-br-xl rounded-bl"
-                  } h-7 w-1/2 gradient`}
-                ></span>
-              </div>
+                  Logout
+                </button>
+              </section>
+            ) : (
+              <div className="p-4">
+                <div className="relative w-full flex items-center gap-2 mb-1 pb-1">
+                  <span
+                    className="w-full text-center cursor-pointer rounded-lg"
+                    onClick={() => {
+                      setFormState("login");
+                    }}
+                  >
+                    Login
+                  </span>
+                  <span
+                    className="w-full text-center cursor-pointer rounded-lg"
+                    onClick={() => {
+                      setFormState("register");
+                    }}
+                  >
+                    Register
+                  </span>
+                  <span
+                    className={`absolute -z-10 transition-all duration-500 ease-in-out ${
+                      formState === "login"
+                        ? "left-0 rounded-bl-xl rounded-br rounded-tr-xl rounded-tl"
+                        : "left-1/2 rounded-tl-xl rounded-tr rounded-br-xl rounded-bl"
+                    } h-7 w-1/2 gradient`}
+                  ></span>
+                </div>
 
-              {formState === "login" ? <Login /> : <Register />}
-            </div>
+                {formState === "login" ? <Login /> : <Register />}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -140,7 +203,7 @@ function Home() {
             {chat.length === 0 ? (
               <>
                 <h1 className="md:text-6xl text-5xl gradient-text font-semibold w-fit">
-                  Hello, User
+                  Hello, {session ? session.user.name : "User"}
                 </h1>
                 <p className="md:text-5xl text-4xl text-[#444746] font-semibold">
                   How can I help you today?

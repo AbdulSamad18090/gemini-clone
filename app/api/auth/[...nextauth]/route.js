@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions = {
   session: {
     strategy: "jwt",
+    maxmaxAge: 24 * 60 * 60, // 1 day
   },
   providers: [
     CredentialsProvider({
@@ -18,7 +19,7 @@ export const authOptions = {
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
-          return credentials;
+          return user;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
           return null;
@@ -38,7 +39,7 @@ export const authOptions = {
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
-          return credentials;
+          return user;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
           return null;
@@ -52,6 +53,35 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      // Add user data to the token when signing in
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Populate session with user data from the token
+      session.user.id = token.id;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      return session;
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
