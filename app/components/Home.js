@@ -60,7 +60,7 @@ function Home() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyD6bnNyrjHy8UjeNKyttGpxixdhc5vQ5gw",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBtO01_5a-ZIt-61dO9VClEg-oDW-0FqJY",
         {
           contents: [
             {
@@ -85,7 +85,7 @@ function Home() {
   };
 
   return (
-    <div className="bg-[#1e1f20] h-screen">
+    <div className="bg-[#0d0d0d] h-screen">
       {/* Header */}
       <div className="w-full text-white p-4 flex items-center justify-between">
         <IoMdMenu
@@ -151,7 +151,7 @@ function Home() {
                   </div>
                 </div>
                 <button
-                  className="w-full bg-[#1e1f20] hover:bg-[#1a1a1b] text-red-600 outline-double hover:outline-red-600 outline-black transition-all p-2 rounded-lg mt-4"
+                  className="w-full bg-[#0d0d0d] hover:bg-[#1a1a1b] text-red-600 outline-double hover:outline-red-600 outline-black transition-all p-2 rounded-lg mt-4"
                   onClick={() => {
                     signOut();
                   }}
@@ -193,12 +193,12 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="flex bg-[#1e1f20] text-white">
+      <div className="flex bg-[#0d0d0d] text-white">
         {/* Sidebar */}
         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* Content */}
-        <div className="bg-[#131314] w-full h-[85vh] items-stretch rounded-l-2xl flex flex-col justify-between p-2">
+        <div className="bg-[#0d0d0d] w-full h-[85vh] items-stretch rounded-l-2xl flex flex-col justify-between p-2">
           <div className="flex flex-col gap-4 overflow-y-auto">
             {chat.length === 0 ? (
               <>
